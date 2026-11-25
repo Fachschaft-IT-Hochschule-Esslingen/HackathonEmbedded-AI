@@ -20,11 +20,11 @@ Jedes Board hat in den [Board-Docs](../BoardDocs/README.md) einen Ordner, der sc
 
 | Euer Board | Startprojekt | Was das Testprogramm macht |
 |---|---|---|
-| XIAO ESP32-S3 | [XIAO-ESP32-S3](../BoardDocs/XIAO-ESP32-S3/) | User-LED blinkt, Text im Serial Monitor |
+| XIAO ESP32-S3 | [XIAO-ESP32-S3](../BoardDocs/XIAO-ESP32-S3/) | User-LED blinkt, „Fachschaft IT“ im Serial Monitor |
 | XIAO ESP32-S3 Sense | [XIAO-ESP32-S3-Sense](../BoardDocs/XIAO-ESP32-S3-Sense/) | LED blinkt, Serial Monitor zeigt den PSRAM (muss 8 MB sein) |
-| XIAO ESP32-C6 | [XIAO-ESP32-C6](../BoardDocs/XIAO-ESP32-C6/) | User-LED blinkt, Text im Serial Monitor |
-| XIAO + Expansion Board | [XIAO-Expansion-Board](../BoardDocs/XIAO-Expansion-Board/) | OLED zeigt Text, Taster zählt hoch, Buzzer piept |
-| DFRobot ESP32-S3 LoRaWAN | [DFRobot-ESP32-S3-LoRaWAN](../BoardDocs/DFRobot-ESP32-S3-LoRaWAN/) | LED blinkt, Serial Monitor zeigt Taster Key1 |
+| XIAO ESP32-C6 | [XIAO-ESP32-C6](../BoardDocs/XIAO-ESP32-C6/) | User-LED blinkt, „Fachschaft IT“ im Serial Monitor |
+| XIAO + Expansion Board | [XIAO-Expansion-Board](../BoardDocs/XIAO-Expansion-Board/) | OLED zeigt „Fachschaft IT“, Taster zählt hoch, Buzzer piept |
+| DFRobot ESP32-S3 LoRaWAN | [DFRobot-ESP32-S3-LoRaWAN](../BoardDocs/DFRobot-ESP32-S3-LoRaWAN/) | Display zeigt „Fachschaft IT“, LED blinkt, Display und Serial Monitor zeigen Taster Key1 |
 | ESP32 WROOM-32 | [ESP32-WROOM-32](../BoardDocs/ESP32-WROOM-32/) | eigene LED an GPIO2 blinkt (mit 220 Ω nach GND) |
 | ATtiny85 ⚠️ Advanced | eigener Ablauf, siehe [ATtiny85](../BoardDocs/ATtiny85/README.md) | |
 
@@ -57,7 +57,7 @@ void setup() {
 
 void loop() {
   digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));  // LED umschalten
-  Serial.println("XIAO ESP32-S3 lebt!");
+  Serial.println("Fachschaft IT");
   delay(500);
 }
 ```
@@ -81,7 +81,7 @@ Unten in der blauen Statusleiste:
 
 1. Board mit einem **USB-Datenkabel** anschließen (reine Ladekabel funktionieren nicht).
 2. **→ Upload** drücken. PlatformIO findet den Port meistens selbst. Am Ende steht `SUCCESS`.
-3. **🔌 Serial Monitor** öffnen. Dort sollte die Ausgabe des Testprogramms erscheinen, z. B. „XIAO ESP32-S3 lebt!“.
+3. **🔌 Serial Monitor** öffnen. Dort sollte die Ausgabe des Testprogramms erscheinen, also „Fachschaft IT“.
 
 **Mehrere Boards angeschlossen?** In der `platformio.ini` den Port festlegen, z. B. `upload_port = COM5` und `monitor_port = COM5`. Welche Ports es gibt, zeigt *PIO Home → Devices*.
 

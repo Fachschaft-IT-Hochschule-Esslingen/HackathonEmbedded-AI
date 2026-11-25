@@ -9,6 +9,6 @@ void setup() {
 
 void loop() {
   digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
-  Serial.printf("XIAO ESP32-S3 Sense lebt! PSRAM: %u Bytes\n", ESP.getPsramSize());
+  Serial.printf("Fachschaft IT | PSRAM: %u Bytes\n", ESP.getPsramSize());
   delay(1000);
 }

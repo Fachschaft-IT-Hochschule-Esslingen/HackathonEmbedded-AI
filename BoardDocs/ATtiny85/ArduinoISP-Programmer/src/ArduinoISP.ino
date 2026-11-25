@@ -1,10 +1,10 @@
 // =====================================================================
-//  Hackathon-Anpassung: ArduinoISP für den Seeed XIAO ESP32-S3
+//  Hackathon-Anpassung: ArduinoISP für Seeed XIAO ESP32-S3 und XIAO ESP32-C6
 //  Original: https://github.com/arduino/arduino-examples (11.ArduinoISP)
 //  Geändert sind nur die Pins in Zeile ~94 (Original: RESET 10, LEDs 9/8/7),
-//  weil GPIO7-9 beim XIAO die SPI-Pins sind.
+//  weil GPIO7-9 beim XIAO S3 die SPI-Pins sind. Die D-Namen gelten für S3 und C6 gleich.
 //
-//  Verdrahtung XIAO ESP32-S3 -> ATtiny85:
+//  Verdrahtung XIAO (S3 oder C6) -> ATtiny85:
 //    D10 (MOSI) -> Beinchen 5 (PB0)
 //    D9  (MISO) -> Beinchen 6 (PB1)
 //    D8  (SCK)  -> Beinchen 7 (PB2)
@@ -245,6 +245,15 @@ static BitBangedSPI SPI;
 
 void setup() {
   SERIAL.begin(BAUDRATE);
+
+  // Hackathon: Der ESP32-Arduino-Kern 3.x ignoriert digitalWrite() auf Pins, für die
+  // noch kein pinMode() gesetzt wurde, und schreibt stattdessen eine Fehlermeldung
+  // auf den USB-Port. Die stört das Protokoll zu avrdude. Darum die ISP-Pins hier
+  // einmal als Eingang anmelden (hochohmig, der ATtiny läuft normal weiter).
+  pinMode(RESET, INPUT);
+  pinMode(ARDUINOISP_PIN_SCK, INPUT);
+  pinMode(ARDUINOISP_PIN_MOSI, INPUT);
+  pinMode(ARDUINOISP_PIN_MISO, INPUT);
 
   pinMode(LED_PMODE, OUTPUT);
   pulse(LED_PMODE, 2);

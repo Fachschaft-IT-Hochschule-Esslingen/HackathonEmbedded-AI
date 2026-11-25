@@ -5,7 +5,7 @@
 ESP32-S3 mit **LoRa-Funkchip SX1262 (868 MHz)**, **0,96"-Farbdisplay** (160×80), zwei Tastern, LED und Anschluss für einen Li-Ion-Akku. LoRa funkt kleine Datenmengen über mehrere Kilometer, z. B. Sensorwerte von draußen.
 
 **Doku:** [DFRobot Wiki](https://wiki.dfrobot.com/SKU_DFR1195_LoRaWAN_ESP32_S3)
-**PlatformIO:** [platformio.ini](platformio.ini) in euer Projekt kopieren. Für dieses Board gibt es keine eigene Board-Definition. Die Datei passt die generische ESP32-S3-Definition an (4 MB Flash, serielle Ausgabe über USB-C).
+**PlatformIO:** Ordner als Startprojekt öffnen bzw. [platformio.ini](platformio.ini) kopieren. Die Datei stellt die generische ESP32-S3-Definition auf dieses Board um (Pinbelegung von DFRobot, 4 MB Flash, serielle Ausgabe über USB-C) und bindet die DFRobot-Bibliothek für Display und LoRa ein. Das Startprogramm zeigt „Fachschaft IT“ auf dem Display.
 
 ## Pinout
 
@@ -40,4 +40,4 @@ ESP32-S3 mit **LoRa-Funkchip SX1262 (868 MHz)**, **0,96"-Farbdisplay** (160×80)
 
 - **Nie ohne LoRa-Antenne senden!** Antenne vorher auf den IPEX-Stecker drücken. Senden ohne Antenne kann den Funkchip beschädigen.
 - **Akku** an die grüne Schraubklemme (3,7 V Li-Ion): **+ und − genau prüfen**, die Klemme schützt nicht vor Verpolung.
-- Beispielcode für LoRaWAN: Bibliothek `DFRobot_LoRaWAN_ESP32S3` (Beispiele im Ordner `examples`). Für einfache Punkt-zu-Punkt-Verbindungen zwischen zwei Boards eignet sich auch die Bibliothek *RadioLib*.
+- Display und LoRa laufen über die Bibliothek `DFRobot_LoRaWAN_ESP32S3` (ist in der `platformio.ini` schon eingetragen). Das Display heißt dort `LCD_OnBoard`, siehe [src/example.cpp](src/example.cpp). Beispiele für LoRa und LoRaWAN: [GitHub, Ordner examples](https://github.com/DFRobot/DFRobot_LoRaWAN_ESP32S3/tree/v1.0.1/examples).

@@ -12,6 +12,6 @@ void setup() {
 
 void loop() {
   digitalWrite(LED_PIN, !digitalRead(LED_PIN));
-  Serial.println("ESP32 WROOM-32 lebt!");
+  Serial.println("Fachschaft IT");
   delay(500);
 }

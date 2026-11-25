@@ -57,6 +57,7 @@ Optional: LEDs mit 220-Ω-Vorwiderstand an D1 (läuft), D2 (Fehler) und D3 (prog
 ### 2. XIAO zum Programmer machen (einmalig)
 
 1. Den Ordner [ArduinoISP-Programmer](ArduinoISP-Programmer/) in VS Code öffnen (*Datei → Ordner öffnen*).
+   Mit einem **XIAO ESP32-C6** statt S3: in der `platformio.ini` `default_envs = xiao_esp32c6_isp` setzen. Die Verkabelung bleibt gleich.
 2. XIAO per USB anschließen und **Upload** (→) drücken.
 3. Port des XIAO merken (*PlatformIO → Devices*).
 
@@ -69,7 +70,7 @@ Optional: LEDs mit 220-Ω-Vorwiderstand an D1 (läuft), D2 (Fehler) und D3 (prog
 4. Danach ganz normal **Upload** drücken. Das Programm geht über den XIAO in den ATtiny.
 
 > [!NOTE]
-> **Noch in Klärung (Orga):** Dieser Ablauf ist mit unseren Boards noch nicht praktisch getestet. Kompilieren klappt, offen ist, ob der Upload über den XIAO zuverlässig läuft. Bis das geklärt ist: Bitte am Orga-Tisch melden, bevor ihr mit dem ATtiny loslegt.
+> **Auf Hardware getestet** (25.11.2026) mit einem **XIAO ESP32-C6** als Programmer: Fuses schreiben und Programm hochladen funktionieren. Mit dem XIAO ESP32-S3 baut der Programmer ebenfalls, ist aber noch nicht auf Hardware getestet. Der I2C-Aufbau unten ist noch nicht getestet.
 
 ## Typischer Einsatz: ATtiny als Sensorknoten am ESP32
 

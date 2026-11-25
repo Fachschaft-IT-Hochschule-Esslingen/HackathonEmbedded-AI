@@ -8,6 +8,6 @@ void setup() {
 
 void loop() {
   digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
-  Serial.println("XIAO ESP32-C6 lebt!");
+  Serial.println("Fachschaft IT");
   delay(500);
 }

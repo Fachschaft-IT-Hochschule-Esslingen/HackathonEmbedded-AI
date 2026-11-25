@@ -1,4 +1,4 @@
-// Startprojekt XIAO Expansion Board: OLED zeigt Text und zählt Tastendrücke,
+// Startprojekt XIAO Expansion Board: OLED zeigt "Fachschaft IT" und zählt Tastendrücke,
 // der Buzzer piept bei jedem Druck auf den User-Taster.
 #include <Arduino.h>
 #include <U8x8lib.h>
@@ -13,7 +13,7 @@ void setup() {
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   oled.begin();
   oled.setFont(u8x8_font_chroma48medium8_r);
-  oled.drawString(0, 0, "Hallo Hackathon!");
+  oled.drawString(0, 0, "Fachschaft IT");
   oled.drawString(0, 2, "Taster druecken");
 }
 

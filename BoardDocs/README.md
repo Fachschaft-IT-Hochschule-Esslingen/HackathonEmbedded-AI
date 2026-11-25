@@ -19,6 +19,20 @@ Pinouts, wichtige Pins und offizielle Dokus zu allen Mikrocontrollern, die ihr b
 
 Jedes Board hat einen eigenen Ordner mit Doku, Pinout-Bildern und einer fertigen **`platformio.ini`**. Wie ihr sie benutzt, steht in [Erste Schritte](../GettingStarted/README.md).
 
+## Teststand
+
+Alle Startprojekte bauen fehlerfrei mit der jeweiligen `platformio.ini`. Auf echter Hardware hochgeladen und geprüft:
+
+| Board | Hardware-Test |
+|---|---|
+| XIAO ESP32-S3 | ✅ Upload, LED blinkt |
+| XIAO ESP32-S3 Sense | ✅ Upload, 8 MB PSRAM erkannt |
+| XIAO ESP32-C6 | ✅ Upload, als ATtiny-Programmer im Einsatz |
+| ATtiny85 | ✅ Programmieren über XIAO ESP32-C6, LED blinkt (I2C-Aufbau nicht auf Hardware getestet, nur kompiliert) |
+| DFRobot ESP32-S3 LoRaWAN | ✅ Upload, Display zeigt „Fachschaft IT“ |
+| ESP32 WROOM-32 | ⏳ offen |
+| XIAO Expansion Board | ⏳ offen |
+
 ## Pinout lesen in 30 Sekunden
 
 - **Dx / Ax**: Arduino-Name des Pins (digital / analog). Den benutzt ihr im Code, z. B. `digitalWrite(D2, HIGH)`.
