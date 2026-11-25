@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hackathon Ausleihschein</title>
+<style>
+:root{
+  --bg:#f6f7f9; --card:#fff; --ink:#1d232b; --muted:#5d6773; --line:#d9dee4;
+  --accent:#1f5fae; --accent-soft:#e7f0fb; --warn:#a15c00; --sel:#eef6ee; --selline:#3f8f46;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.app{max-width:1200px;margin:0 auto;padding:16px}
+h1{font-size:22px;margin:4px 0 2px}
+.sub{color:var(--muted);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+.card h2{font-size:15px;margin:0 0 10px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px 14px}
+label.f{display:flex;flex-direction:column;font-size:12px;color:var(--muted);gap:3px}
+label.f input{font:inherit;color:var(--ink);padding:7px 9px;border:1px solid var(--line);border-radius:6px;background:#fff}
+label.f input:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
+.toolbar{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:14px}
+.toolbar input[type=search]{flex:1 1 220px;font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:6px}
+.count{color:var(--muted);white-space:nowrap}
+.count b{color:var(--ink)}
+button{font:inherit;border:1px solid var(--line);background:#fff;border-radius:6px;padding:8px 12px;cursor:pointer}
+button.primary{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
+button:hover{filter:brightness(.96)}
+.onlysel{display:flex;align-items:center;gap:6px;color:var(--muted);white-space:nowrap}
+.cat{margin-bottom:14px}
+.cat h3{font-size:14px;margin:0;padding:8px 12px;background:var(--accent-soft);color:var(--accent);border:1px solid var(--line);border-bottom:none;border-radius:8px 8px 0 0;display:flex;justify-content:space-between}
+.cat h3 span{font-weight:400;color:var(--muted)}
+table.pick{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line)}
+table.pick td,table.pick th{padding:6px 10px;border-top:1px solid var(--line);text-align:left;vertical-align:middle}
+table.pick th{font-size:12px;color:var(--muted);font-weight:500}
+table.pick tr.sel{background:var(--sel)}
+table.pick tr.sel td:first-child{box-shadow:inset 3px 0 0 var(--selline)}
+td.chk{width:38px} td.chk input{width:18px;height:18px;cursor:pointer}
+td.id{width:80px;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+td.stock{width:80px;text-align:right;font-variant-numeric:tabular-nums}
+td.qty{width:110px}
+td.qty input{width:70px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:5px}
+td.qty input:disabled{background:#f2f3f5;color:#aaa}
+.tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:9px;margin-left:6px;vertical-align:1px}
+.tag.v{background:#fff3e0;color:var(--warn)}
+.tag.b{background:#ece9fb;color:#5b46b8}
+.hint{color:var(--muted);font-size:12px}
+.help{font-size:13px;color:var(--muted)}
+.help ol{margin:4px 0 0 18px;padding:0}
+@media (max-width:640px){ td.id,th.hide{display:none} td.stock{width:56px} td.qty{width:80px} td.qty input{width:56px} }
+
+/* ---------- Druckansicht ---------- */
+#print{display:none}
+@page{size:A4 landscape;margin:12mm 12mm 12mm 12mm}
+@media print{
+  html,body{background:#fff}
+  .app{display:none}
+  #print{display:block;color:#000;font:10pt/1.35 Arial,Helvetica,sans-serif}
+  .ph{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1.5pt solid #000;padding-bottom:3mm;margin-bottom:4mm}
+  .ph h1{font-size:16pt;margin:0}
+  .ph .meta{text-align:right;font-size:9pt}
+  .pf{display:grid;grid-template-columns:1.3fr 1.3fr 1fr 1fr 1fr;gap:3mm 5mm;margin-bottom:5mm}
+  .pf div{border-bottom:.6pt solid #000;min-height:11mm;padding-top:1mm}
+  .pf small{display:block;font-size:7.5pt;color:#444;text-transform:uppercase;letter-spacing:.03em}
+  .pf span{font-size:11pt}
+  table.pt{width:100%;border-collapse:collapse}
+  table.pt th,table.pt td{border:.6pt solid #000;padding:1.1mm 2mm;text-align:left;vertical-align:top}
+  table.pt th{background:#e6e6e6;font-size:8.5pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  table.pt thead{display:table-header-group}
+  table.pt tr{break-inside:avoid}
+  table.pt td.n,table.pt td.m{text-align:right;width:12mm}
+  table.pt td.id{width:18mm}
+  table.pt td.cat{width:46mm;white-space:nowrap}
+  table.pt td.r{width:22mm;text-align:center}
+  table.pt td.bem{width:55mm}
+  .box{display:inline-block;width:3.6mm;height:3.6mm;border:.7pt solid #000;vertical-align:-.6mm}
+  .sum{margin-top:2mm;font-size:9pt}
+  .sig{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0 8mm;margin-top:6mm;break-inside:avoid}
+  .sig h4{grid-column:span 2;margin:0;font-size:10pt;border-bottom:.6pt solid #999;padding-bottom:1mm}
+  .sig .line{border-top:.7pt solid #000;padding-top:1mm;font-size:8pt;margin-top:14mm}
+  .note{font-size:8pt;color:#333;margin-top:5mm;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>Hackathon Embedded AI · Ausleihschein</h1>
+  <p class="sub">Komponenten anhaken, Menge eintragen, dann „PDF erstellen“. Funktioniert offline in jedem Browser.</p>
+
+  <div class="card">
+    <h2>Ausleihende Person</h2>
+    <div class="fields">
+      <label class="f">Name<input id="fName" autocomplete="off" placeholder="Vor- und Nachname"></label>
+      <label class="f">Hochschul-Mailadresse<input id="fMail" type="email" autocomplete="off" placeholder="name@hochschule.de"></label>
+      <label class="f">Team (optional)<input id="fTeam" autocomplete="off"></label>
+      <label class="f">Ausleihdatum<input id="fDate" type="date"></label>
+      <label class="f">Vereinbartes Rückgabedatum<input id="fDue" type="date"></label>
+    </div>
+    <p class="hint">Leere Felder erscheinen auf dem Ausdruck als Linie zum Ausfüllen per Hand. Das tatsächliche Rückgabedatum und die Unterschriften werden auf dem Papier eingetragen.</p>
+  </div>
+
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="Komponente suchen, z. B. XIAO, OLED, Zange …">
+    <label class="onlysel"><input type="checkbox" id="onlySel"> nur Ausgewählte</label>
+    <span class="count" id="count"></span>
+    <button id="reset" type="button">Neu / Zurücksetzen</button>
+    <button id="go" class="primary" type="button">PDF erstellen / Drucken</button>
+  </div>
+
+  <div id="list"></div>
+
+  <div class="card help">
+    <b>So geht’s</b>
+    <ol>
+      <li>Haken bei jeder Komponente setzen, die ausgeliehen wird. Die Menge steht dann auf 1 und lässt sich bis zum Gesamtbestand erhöhen.</li>
+      <li>„PDF erstellen / Drucken“ öffnet den Druckdialog. Dort „Als PDF speichern“ oder direkt den Drucker wählen. Querformat A4 ist voreingestellt.</li>
+      <li>Auf dem Ausdruck stehen nur die angehakten Teile, mit Kästchen zum Abhaken bei der Rückgabe.</li>
+      <li>Für die nächste Person „Neu / Zurücksetzen“ drücken.</li>
+    </ol>
+    <p><span class="tag v">Verbrauch</span> = Verbrauchsmaterial, wird nicht zurückgegeben. <span class="tag b">Bestand</span> = war schon vor der Bestellung vorhanden.
+    Bestandszahlen ändern: Datei in einem Texteditor öffnen und die Liste <code>ITEMS</code> anpassen.</p>
+  </div>
+</div>
+
+<div id="print"></div>
+
+<script>
+/* Kategorie, ID, Bezeichnung, Gesamtbestand, Flag ("V" = Verbrauch, "B" = schon vorhanden)
+   Quelle: MaterialsList/hackathon-stueckliste.csv, Stand 25.11.2026 (neu: TP4056 Lademodul; MAX98357A jetzt 2 Stk.) */
+const ITEMS = [
+ ["Mikrocontroller & Boards","MC-01","Seeed XIAO ESP32-S3 (ohne Kamera)",10],
+ ["Mikrocontroller & Boards","CAM-01","Seeed XIAO ESP32-S3 Sense (Kamera + Mikrofon)",8],
+ ["Mikrocontroller & Boards","ZB-01","Seeed XIAO ESP32-C6 (Wi-Fi 6, BLE, Zigbee, Thread)",4],
+ ["Mikrocontroller & Boards","MC-08","DFRobot ESP32-S3 LoRaWAN Board mit 0,96\" Farbdisplay",3],
+ ["Mikrocontroller & Boards","MC-11","ESP32 NodeMCU WROOM-32 (Micro-USB, 38 Pins)",5],
+ ["Mikrocontroller & Boards","BUS-01","Seeed XIAO Expansion Board (OLED, RTC, Buzzer, microSD)",1],
+ ["Sensoren","BUS-13","BME280 Luftdruck, Feuchte, Temperatur (I2C)",3],
+ ["Sensoren","SEN-02","DHT22 Temperatur/Feuchte mit Kabel",4],
+ ["Sensoren","SEN-07","DS18B20 Temperatursensor (IC)",2],
+ ["Sensoren","BUS-10","MPU-6050 Beschleunigung + Gyroskop (I2C)",2],
+ ["Sensoren","BUS-11","VL53L0X Laser-Abstandssensor (I2C)",1],
+ ["Sensoren","BUS-14","MAX30102 Puls + SpO2 (I2C)",2],
+ ["Sensoren","BUS-15","TCS34725 Farbsensor (I2C)",1],
+ ["Sensoren","SEN-08","APDS-9960 Gesten-/Farbsensor (I2C)",2],
+ ["Sensoren","SEN-12","BH1750 Lichtsensor (I2C)",2],
+ ["Sensoren","SEN-09","KY-018 Fotowiderstand-Modul",5],
+ ["Sensoren","SEN-13","MQ-135 Gassensor Luftqualität",2],
+ ["Sensoren","SEN-05","HC-SR501 PIR-Bewegungsmelder",5],
+ ["Sensoren","IN-02","SW-420 Vibrationssensor",6],
+
+ ["Eingabe","IN-09","Touchsensor-Modul kapazitiv",8],
+ ["Eingabe","IN-10","KY-040 Drehgeber mit Taster",2],
+ ["Eingabe","IN-04","Mikro-Drucktaster 12 mm",40],
+ ["Eingabe","IN-08","Drehpotentiometer 10 kΩ linear",20],
+
+ ["Displays & LEDs","I2C-09","OLED 0,96\" 128x64 SSD1306 (I2C)",7],
+ ["Displays & LEDs","I2C-02","OLED 0,91\" 128x32 (I2C)",2],
+ ["Displays & LEDs","SPI-01","Waveshare 2,13\" E-Paper (SPI, mit Kabel)",3],
+ ["Displays & LEDs","SPI-05","MAX7219 8x8-LED-Matrix (SPI)",3],
+ ["Displays & LEDs","SPI-02","7-Segment-Anzeige 4-stellig TM1637",8],
+ ["Displays & LEDs","LED-03","NeoPixel Stick 8x WS2812",5],
+ ["Displays & LEDs","LED-05","LED-Set 5 mm, 100 Stk., 5 Farben",3,"V"],
+
+ ["Funk & RFID","RF-04","RFID-Kit RC522 (mit Karte)",6],
+ ["Funk & RFID","RF-11","RFID-Schlüsselanhänger 13,56 MHz",3],
+ ["Funk & RFID","RF-08","NFC-Sticker NTAG213",20,"V"],
+ ["Funk & RFID","SEN-10","433-MHz-Sender + Empfänger FS1000A",2],
+
+ ["Audio & Aktoren","AUD-08","Adafruit MAX98357A I2S-Verstärker",2],
+ ["Audio & Aktoren","AUD-04","Mono-Lautsprecher 3 W, 4 Ω",2],
+ ["Audio & Aktoren","SERVO","Servo SG90",4,"B"],
+
+ ["Module & Schnittstellen","BUS-16","Pegelwandler bidirektional 4 Kanäle 3,3 V ↔ 5 V",8],
+ ["Module & Schnittstellen","BUS-17","TCA9548A I2C-Multiplexer 8 Kanäle",2],
+ ["Module & Schnittstellen","PX-01","Waveshare MCP23017 IO-Board (16 I/O, I2C)",2],
+ ["Module & Schnittstellen","PX-02","PCF8574 IO-Expander (8 I/O, I2C)",2],
+ ["Module & Schnittstellen","AD-03","ADS1015 ADC 4 Kanäle 12 Bit (I2C)",2],
+ ["Module & Schnittstellen","DA-01","MCP4725 DAC 12 Bit (I2C)",2],
+ ["Module & Schnittstellen","BUS-12","DS3231 Echtzeituhr (I2C)",2],
+
+ ["Elektronische Bauteile","GK-14","Bauteilsortiment 1390 Stk. in Box (LEDs, R, C, Transistoren, Dioden)",2],
+ ["Elektronische Bauteile","GK-13","Widerstandssortiment 2600 Stk. in Sortierbox",1],
+ ["Elektronische Bauteile","GK-16","Elko-Set 200 Stk. (1–220 µF)",1],
+ ["Elektronische Bauteile","GK-15","Nachfüllpack Widerstände 100 Stk.",3,"V"],
+ ["Elektronische Bauteile","GK-06","Diode 1N4001",30,"V"],
+ ["Elektronische Bauteile","GK-07","Diode 1N4148",30,"V"],
+ ["Elektronische Bauteile","AT-01","ATtiny85V-20PU (DIP-8)",10],
+ ["Elektronische Bauteile","OP-01","LM358 Doppel-OpAmp (DIP-8)",6],
+ ["Elektronische Bauteile","EE-01","24LC256 I2C-EEPROM (DIP-8)",2],
+ ["Elektronische Bauteile","PL-04","IC-Sockel 8-polig DIP",5,"V"],
+
+ ["Stromversorgung","AK-07","Li-Ion-Akku 18650, 2300 mAh",6],
+ ["Stromversorgung","AK-10","Batteriefach 1x 18650 mit Kabel",6],
+ ["Stromversorgung","AK-04","Ladeboard für 4 Zellen (USB-C)",1],
+ ["Stromversorgung","AK-02","LiPo 3,7 V 100 mAh (JST-PH)",6],
+ ["Stromversorgung","AK-09","JST-PH-2.0-Kabel 2-polig",11],
+ ["Stromversorgung","PD-01","Adafruit USB-C PD Trigger HUSB238",5],
+ ["Stromversorgung","AK-11","TP4056 Lademodul 1S-Lithium (USB-C, 1 A)",6],
+
+ ["Aufbau & Verbindung","BRD-06","Breadboard 830 Kontakte",20],
+ ["Aufbau & Verbindung","BRD-07","Breadboard 400 Kontakte",20],
+ ["Aufbau & Verbindung","BRD-08","Drahtbrücken-Set 140 Stk. mit Box",20],
+ ["Aufbau & Verbindung","BRD-09","Dupont-Kabel Male-Male (40 Stk.)",7],
+ ["Aufbau & Verbindung","BRD-10","Dupont-Kabel Male-Female (40 Stk.)",7],
+ ["Aufbau & Verbindung","BRD-11","Dupont-Kabel Female-Female (40 Stk.)",7],
+ ["Aufbau & Verbindung","PL-07","Dupont auf Krokodilklemme (10 Stk.)",2],
+ ["Aufbau & Verbindung","MC-10","Micro-USB-Kabel 1 m",3],
+ ["Aufbau & Verbindung","USB-B","Micro-USB-Kabel (vorhanden)",2,"B"],
+ ["Aufbau & Verbindung","MC-05","Stiftleiste 1x40",16,"V"],
+ ["Aufbau & Verbindung","PL-10","Buchsenleiste 1x40",5,"V"],
+ ["Aufbau & Verbindung","PL-09","Lochrasterplatine 9x15 cm",5,"V"],
+ ["Aufbau & Verbindung","DR-01","Schaltdraht starr 0,5 mm, 10 m (Rolle, Farbe angeben)",5],
+ ["Aufbau & Verbindung","DR-07","Kupferlitze 0,14 mm², 10 m (Rolle, Farbe angeben)",6],
+ ["Aufbau & Verbindung","WZ-12","Schrumpfschlauch-Set 560-teilig",1],
+
+ ["Werkzeug & Messen","WZ-20","USB Logic Analyzer 8 Kanäle 24 MHz",1],
+ ["Werkzeug & Messen","WZ-02","PCWork Seitenschneider + Abisolierer",5],
+ ["Werkzeug & Messen","WZ-22","Seitenschneider 130 mm",2],
+ ["Werkzeug & Messen","WZ-21","Abisolierzange M-26071",1],
+ ["Werkzeug & Messen","WZ-04","Flachzange 125 mm",3],
+ ["Werkzeug & Messen","WZ-19","Präzisionspinzette ESD17",5],
+ ["Werkzeug & Messen","WZ-17","Goobay Präzisions-Schraubendreher 7-tlg.",1],
+ ["Werkzeug & Messen","WZ-18","Basetech Bit-Set 116-teilig",1],
+ ["Werkzeug & Messen","LÖT-1","Lötkolben",1,"B"],
+ ["Werkzeug & Messen","LÖT-2","Dritte Hand",1,"B"],
+ ["Werkzeug & Messen","LÖT-3","Entlötpumpe",1,"B"],
+ ["Werkzeug & Messen","LÖT-4","Multimeter",1,"B"]
+];
+
+const $ = s => document.querySelector(s);
+const state = {};               // index -> Menge (nur ausgewählte)
+const fmtDate = v => { if(!v) return ""; const [y,m,d]=v.split("-"); return `${d}.${m}.${y}`; };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const today = () => { const d=new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); };
+
+function render(){
+  const q = $("#q").value.trim().toLowerCase();
+  const only = $("#onlySel").checked;
+  const cats = [...new Set(ITEMS.map(i=>i[0]))];
+  let html = "";
+  for(const c of cats){
+    const rows = ITEMS.map((it,i)=>[it,i]).filter(([it,i]) => it[0]===c
+      && (!q || (it[2]+" "+it[1]).toLowerCase().includes(q))
+      && (!only || state[i]));
+    if(!rows.length) continue;
+    const nSel = rows.filter(([,i])=>state[i]).length;
+    html += `<section class="cat"><h3>${esc(c)}<span>${nSel?nSel+" ausgewählt":""}</span></h3><table class="pick"><thead><tr><th></th><th>Komponente</th><th class="hide">ID</th><th style="text-align:right">Bestand</th><th>Menge</th></tr></thead><tbody>`;
+    for(const [it,i] of rows){
+      const sel = !!state[i];
+      const tag = it[4]==="V" ? '<span class="tag v">Verbrauch</span>' : it[4]==="B" ? '<span class="tag b">Bestand</span>' : "";
+      html += `<tr class="${sel?"sel":""}" data-i="${i}">
+        <td class="chk"><input type="checkbox" ${sel?"checked":""} aria-label="${esc(it[2])} ausleihen"></td>
+        <td>${esc(it[2])}${tag}</td>
+        <td class="id">${esc(it[1])}</td>
+        <td class="stock">${it[3]}</td>
+        <td class="qty"><input type="number" min="1" max="${it[3]}" value="${sel?state[i]:""}" ${sel?"":"disabled"} inputmode="numeric"></td></tr>`;
+    }
+    html += "</tbody></table></section>";
+  }
+  $("#list").innerHTML = html || '<p class="hint">Nichts gefunden.</p>';
+  updateCount();
+}
+function updateCount(){
+  const keys = Object.keys(state);
+  const parts = keys.reduce((s,k)=>s+state[k],0);
+  $("#count").innerHTML = `<b>${keys.length}</b> Positionen · <b>${parts}</b> Teile`;
+}
+$("#list").addEventListener("change", e=>{
+  const tr = e.target.closest("tr[data-i]"); if(!tr) return;
+  const i = +tr.dataset.i, max = ITEMS[i][3];
+  if(e.target.type==="checkbox"){
+    if(e.target.checked) state[i]=1; else delete state[i];
+    render();
+  } else if(e.target.type==="number"){
+    let v = parseInt(e.target.value,10);
+    if(!(v>=1)) v=1; if(v>max) v=max;
+    e.target.value = v; state[i]=v; updateCount();
+  }
+});
+$("#list").addEventListener("click", e=>{          // Klick auf die Zeile toggelt den Haken
+  const tr = e.target.closest("tr[data-i]");
+  if(!tr || e.target.tagName==="INPUT") return;
+  const cb = tr.querySelector("input[type=checkbox]"); cb.checked=!cb.checked;
+  cb.dispatchEvent(new Event("change",{bubbles:true}));
+});
+$("#q").addEventListener("input", render);
+$("#onlySel").addEventListener("change", render);
+$("#reset").addEventListener("click", ()=>{
+  if(Object.keys(state).length && !confirm("Auswahl und Angaben löschen?")) return;
+  for(const k in state) delete state[k];
+  ["#fName","#fMail","#fTeam","#fDue"].forEach(s=>$(s).value="");
+  $("#fDate").value = today(); $("#q").value=""; $("#onlySel").checked=false; render();
+});
+
+function buildPrint(){
+  const keys = Object.keys(state).map(Number).sort((a,b)=>a-b);
+  const v = s => $(s).value.trim();
+  const no = "AS-" + new Date().toISOString().replace(/[-:T]/g,"").slice(0,12);
+  const fld = (label,val) => `<div><small>${label}</small><span>${esc(val)}</span></div>`;
+  let rows = "", n=0, parts=0;
+  for(const i of keys){
+    const it = ITEMS[i]; n++; parts += state[i];
+    rows += `<tr><td class="n">${n}</td><td class="cat">${esc(it[0])}</td><td class="id">${esc(it[1])}</td><td>${esc(it[2])}${it[4]==="V"?" (Verbrauch)":""}</td><td class="m">${state[i]}</td><td class="r">${it[4]==="V"?"–":'<span class="box"></span>'}</td><td class="bem"></td></tr>`;
+  }
+  $("#print").innerHTML = `
+    <div class="ph"><h1>Ausleihschein · Hackathon Embedded AI</h1>
+      <div class="meta">Fachschaft IT · Nr. ${no}<br>Erstellt am ${fmtDate(today())}</div></div>
+    <div class="pf">
+      ${fld("Name", v("#fName"))}
+      ${fld("Hochschul-Mailadresse", v("#fMail"))}
+      ${fld("Ausleihdatum", fmtDate(v("#fDate")))}
+      ${fld("Vereinbartes Rückgabedatum", fmtDate(v("#fDue")))}
+      ${fld("Tatsächliches Rückgabedatum", "")}
+    </div>
+    ${v("#fTeam") ? `<p style="margin:-2mm 0 3mm">Team: <b>${esc(v("#fTeam"))}</b></p>` : ""}
+    <table class="pt"><thead><tr><th>Nr.</th><th>Kategorie</th><th>ID</th><th>Komponente</th><th>Menge</th><th>Zurück ✓</th><th>Bemerkung (z. B. defekt, fehlt)</th></tr></thead>
+    <tbody>${rows}</tbody></table>
+    <div class="sum">${n} Positionen, ${parts} Teile insgesamt.</div>
+    <div class="sig">
+      <h4>Ausgabe</h4><h4>Rückgabe</h4>
+      <div class="line">Datum, Unterschrift Verleiher</div>
+      <div class="line">Datum, Unterschrift ausleihende Person</div>
+      <div class="line">Datum, Unterschrift Verleiher (Rückgabe geprüft)</div>
+      <div class="line">Datum, Unterschrift ausleihende Person</div>
+    </div>
+    <p class="note">Die ausleihende Person bestätigt den Empfang der oben aufgeführten Komponenten in funktionsfähigem Zustand und verpflichtet sich, sie bis zum vereinbarten Rückgabedatum vollständig zurückzugeben. Mit „(Verbrauch)“ markiertes Material verbleibt bei der ausleihenden Person.</p>`;
+}
+$("#go").addEventListener("click", ()=>{
+  if(!Object.keys(state).length){ alert("Bitte mindestens eine Komponente anhaken."); return; }
+  buildPrint(); window.print();
+});
+window.addEventListener("beforeprint", buildPrint);
+
+$("#fDate").value = today();
+render();
+</script>
+</body>
+</html>

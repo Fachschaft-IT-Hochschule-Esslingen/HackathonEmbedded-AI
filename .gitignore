@@ -1,0 +1,3 @@
+# PlatformIO-Build-Ordner und VS-Code-Einstellungen, die PlatformIO beim Öffnen anlegt
+.pio/
+.vscode/
