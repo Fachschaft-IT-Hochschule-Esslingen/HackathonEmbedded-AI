@@ -8,7 +8,7 @@ Fachschaft IT, Hochschule Esslingen
 | **Wo** | Räume **F1.-208** und **F1.-110** |
 | **Aufgabe** | Frei: Baut, was euch Spaß macht. Hauptsache, es steckt ein bisschen Embedded und KI drin |
 | **Teams** | 2–3 Personen. Ohne Team anmelden geht auch, wir vermitteln |
-| **Competition** (freiwillig) | Kick-off-Pitch ca. 19–20 Uhr · Zwischenpitch ca. 23–24 Uhr · eine Woche Werkeln · Abgabe **Fr, 11.12.2026** in der Fachschaft |
+| **Competition** | Kick-off-Pitch ca. 19–20 Uhr · Zwischenpitch ca. 23–24 Uhr · eine Woche Werkeln · Abgabe **Fr, 11.12.2026** in der Fachschaft |
 | **Mitbringen** | Laptop + Ladekabel, **USB-C-Datenkabel** (kein reines Ladekabel!) |
 | **Infos & Anmeldung** | [Hackathon-FAQ](https://fachschaft-it-hochschule-esslingen.github.io/Events/hackathon/faq.html) · [Hardware-Liste](https://fachschaft-it-hochschule-esslingen.github.io/Events/hackathon/hardware.html) · fachschaft.it@hs-esslingen.de |
 
