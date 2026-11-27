@@ -66,6 +66,21 @@ Warnzeichen: Chip oder Regler zu heiß zum Anfassen, Brandgeruch, Rauch, Laptop 
 | Nur an die vorgesehenen Anschlüsse (z. B. BAT-Pads am XIAO) | Akkus lose in der Tasche oder auf Metall (Kurzschluss!) |
 | Aufgeblähte, beschädigte oder heiße Akkus **sofort melden** | Solche Akkus weiter benutzen |
 
+### Laden und Ladestand prüfen
+
+**Laden:** Das DFRobot-LoRa-Board (18650 an der Schraubklemme) und die XIAO-Boards (LiPo an BAT+/BAT−) laden den Akku automatisch, sobald sie **per USB-C angeschlossen** sind. Die rote Lade-LED leuchtet beim Laden und geht aus, wenn der Akku voll ist.
+
+**Ladestand messen:** Multimeter auf Gleichspannung (V⎓, 20-V-Bereich) an + und − des Akkus. Vorher USB abziehen und ein paar Minuten warten, denn während des Ladens ist die Spannung höher als die echte. Gilt für 18650 und LiPo gleichermaßen:
+
+| Gemessen | Bedeutung |
+|---|---|
+| 4,1–4,2 V | Voll |
+| 3,7–3,9 V | Etwa halb voll |
+| 3,5–3,7 V | Ziemlich leer, bald laden |
+| unter 3,5 V | Fast leer, sofort laden |
+| 0 V | Meist hat die Schutzschaltung abgeschaltet. Bei uns melden, nicht selbst basteln |
+| über 4,25 V oder Akku aufgebläht/warm | Nicht mehr benutzen, sofort melden |
+
 ## Löten
 
 | ✅ Do | ❌ Don't |

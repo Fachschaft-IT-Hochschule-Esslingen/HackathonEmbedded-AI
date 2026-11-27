@@ -40,4 +40,5 @@ ESP32-S3 mit **LoRa-Funkchip SX1262 (868 MHz)**, **0,96"-Farbdisplay** (160×80)
 
 - **Nie ohne LoRa-Antenne senden!** Antenne vorher auf den IPEX-Stecker drücken. Senden ohne Antenne kann den Funkchip beschädigen.
 - **Akku** an die grüne Schraubklemme (3,7 V Li-Ion): **+ und − genau prüfen**, die Klemme schützt nicht vor Verpolung.
+- **Akku laden:** Hängt USB-C dran, lädt das Board den Akku (max. 300 mA). Rote Lade-LED **an** = lädt, **aus** = voll (oder kein USB). Die Akkuspannung liegt über einen 1:2-Spannungsteiler an GPIO1: `analogReadMilliVolts(1) * 2` ergibt die Akkuspannung in mV. Ladestand-Tabelle: [Dos & Don'ts](../../DosAndDonts/README.md#laden-und-ladestand-prüfen).
 - Display und LoRa laufen über die Bibliothek `DFRobot_LoRaWAN_ESP32S3` (ist in der `platformio.ini` schon eingetragen). Das Display heißt dort `LCD_OnBoard`, siehe [src/example.cpp](src/example.cpp). Beispiele für LoRa und LoRaWAN: [GitHub, Ordner examples](https://github.com/DFRobot/DFRobot_LoRaWAN_ESP32S3/tree/v1.0.1/examples).

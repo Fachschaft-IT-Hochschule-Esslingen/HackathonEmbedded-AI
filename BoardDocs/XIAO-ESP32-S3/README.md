@@ -38,7 +38,7 @@ Strom: **5V** (= USB-Spannung), **3V3** (Ausgang für Sensoren), **GND**. Auf de
 ## Worauf ihr achten müsst
 
 - **Antenne anstecken!** Das Board hat keine eingebaute Antenne. Ohne die beiliegende Stabantenne am U.FL-Stecker ist das WLAN sehr schwach. Den Stecker gerade aufdrücken, nicht schräg ziehen.
-- **Akku nur an die BAT-Pads** auf der Rückseite, nie an 3V3 oder 5V. Polarität doppelt prüfen. Geladen wird über USB-C.
+- **Akku nur an die BAT-Pads** auf der Rückseite, nie an 3V3 oder 5V. Polarität doppelt prüfen. Geladen wird automatisch, sobald USB-C dranhängt (Lade-LED an = lädt, aus = voll). Ladestand-Tabelle: [Dos & Don'ts](../../DosAndDonts/README.md#laden-und-ladestand-prüfen).
 - Mit WLAN oder bei Last wird der Chip spürbar warm. Heiß zum Anfassen ist er nicht normal → USB ab.
 - Upload hängt bei „Connecting…“? **BOOT gedrückt halten, USB einstecken, loslassen**, dann nochmal hochladen.
 - `Serial.println` zeigt nichts? Nach dem Upload einmal **RESET** (Taste R) drücken und den seriellen Monitor neu öffnen.

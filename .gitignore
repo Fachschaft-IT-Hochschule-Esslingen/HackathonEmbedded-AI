@@ -1,3 +1,6 @@
 # PlatformIO-Build-Ordner und VS-Code-Einstellungen, die PlatformIO beim Öffnen anlegt
 .pio/
 .vscode/
+
+# Lokale Notizen/Dateien, die nicht ins Repo sollen (z. B. plan.local.md)
+*.local.*

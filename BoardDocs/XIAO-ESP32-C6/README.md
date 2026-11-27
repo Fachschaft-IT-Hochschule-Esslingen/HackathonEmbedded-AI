@@ -39,5 +39,5 @@ Strom: **5V**, **3V3** (Ausgang), **GND**. Rückseite: **BAT+ / BAT−** für ei
 
 - **Nur 3 Analog-Pins** (D0–D2). Analoge Sensoren (z. B. Poti, Fotowiderstand, MQ-135) dort anschließen.
 - **Antenne:** Standardmäßig nutzt das Board die eingebaute Keramikantenne. Für eine externe Antenne am U.FL-Stecker: GPIO3 auf LOW und GPIO14 auf HIGH setzen (Beispielcode im Wiki).
-- **Akku nur an die BAT-Pads**, Polarität doppelt prüfen.
+- **Akku nur an die BAT-Pads**, Polarität doppelt prüfen. Geladen wird automatisch, sobald USB-C dranhängt (Lade-LED an = lädt, aus = voll). Ladestand-Tabelle: [Dos & Don'ts](../../DosAndDonts/README.md#laden-und-ladestand-prüfen).
 - Upload hängt? **BOOT gedrückt halten, USB einstecken, loslassen**, nochmal hochladen.
