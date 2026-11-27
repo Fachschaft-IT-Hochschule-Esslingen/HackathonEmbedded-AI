@@ -262,7 +262,7 @@
       \item Akkus (18650, LiPo) gibt es \textbf{nur auf Anfrage}.
       \item Der \textbf{erste Anschluss} eines Akkus an eure Schaltung
             \must \textbf{außerhalb des Gebäudes} stattfinden.
-      \item Laden nur mit der bereitgestellten Ladeplatine bzw.\ über das XIAO.
+      \item Laden nur über das Board, an dem der Akku hängt (LoRa-Board bzw.\ XIAO), per USB-C.
       \item Laden \never unbeaufsichtigt.
     \end{itemize}
   \end{alertblock}
@@ -281,7 +281,6 @@
     \warn Kein Kurzschluss: Akkus nicht lose in der Tasche, nicht auf Metall.
     \warn \textbf{Aufgeblähte}, beschädigte oder heiße Akkus nicht weiter benutzen,
           sofort melden.
-    \item Kleine LiPos laden nur über das XIAO, 18650 nur in der Ladeplatine.
   \end{itemize}
 \end{frame}
 
@@ -400,7 +399,8 @@
 \begin{frame}{3. Abgabe am Eventtag}
   Zum Ende des Eventtags gebt ihr euren Stand ab:
   \begin{itemize}
-    \item Code (z.\,B.\ Git-Repository) per Mail an uns
+    \item Code in eurem Team-Repo in der GitHub-Organisation\\
+          {\small(bei Problemen mit GitHub: per Mail an uns)}
     \item Kurze Beschreibung: Idee, Hardware, Stand
     \item Sehr gerne Foto oder kurzes Video vom Aufbau
   \end{itemize}
@@ -414,7 +414,8 @@
   \begin{itemize}
     \item Ihr habt \textbf{eine Woche} Zeit, euer Projekt fertig zu machen.
     \item Finale Einreichung bis \textbf{11.12.2026}, 13--14 Uhr
-    \item Einreichen: Hardware, Code und Doku (per Mail an uns)
+    \item Einreichen: Hardware, Code und Doku im Team-Repo\\
+          {\small(bei Problemen mit GitHub: per Mail an uns)}
   \end{itemize}
   \vspace{0.5em}
   Danach bewerten wir die Projekte final.
@@ -430,6 +431,43 @@
     \item Sicherheitsregeln aus dieser Präsentation gelten für alle.\\
           Wer sie ignoriert, gibt Lötkolben bzw.\ Akku zurück.
   \end{itemize}
+\end{frame}
+
+% Anmeldung zur GitHub-Organisation: Daumen hoch auf Issue #1, Einladung kommt per Skript
+\begin{frame}{GitHub: Anmeldung}
+  \begin{columns}[c]
+    \begin{column}{0.42\textwidth}
+      \centering
+      \qrcode[height=4.2cm]{https://github.com/FS-IT-Hochschule-Esslingen-Hackathon/HackathonEmbedded-AI/issues}\\[0.4em]
+      {\scriptsize\urls{github.com/FS-IT-Hochschule-Esslingen-Hackathon/HackathonEmbedded-AI/issues}}
+    \end{column}
+    \begin{column}{0.55\textwidth}
+      \begin{enumerate}
+        \item QR-Code scannen, mit eurem \textbf{GitHub-Account} einloggen\\
+              {\small(noch keinen? \(\rightarrow\) github.com \(\rightarrow\) Sign up)}
+        \item Auf dem Issue \textbf{\faThumbsUp} drücken\\
+              {\small(unter dem Text auf \faSmileO{} klicken)}
+        \item Einladung annehmen: Mail oder\\
+              {\small\urls{github.com/orgs/FS-IT-Hochschule-Esslingen-Hackathon/invitation}}\\
+              \(\rightarrow\) \textbf{Join}
+      \end{enumerate}
+      \vspace{0.3em}
+      {\small Die Einladung kommt nicht sofort, wir verschicken sie in Runden.}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{GitHub: Euer Team-Repo}
+  \textbf{Eine Person pro Team:}
+  \begin{enumerate}
+    \item Oben rechts \textbf{+} \(\rightarrow\) \textbf{New repository}
+    \item \textbf{Owner:} \texttt{FS-IT-Hochschule-Esslingen-Hackathon} (nicht euer eigener Account!)
+    \item \textbf{Repository name:} \texttt{HackathonWS26-27\_Teamname}\\
+          {\small z.\,B.\ \texttt{HackathonWS26-27\_SmartPlant}, ohne Leerzeichen}
+    \item \textbf{Private}, \textbf{Add README} an \(\rightarrow\) \textbf{Create repository}
+    \item \textbf{Settings} \(\rightarrow\) \textbf{Collaborators and teams} \(\rightarrow\) \textbf{Add people}\\
+          \(\rightarrow\) Teammitglieder mit Rolle \textbf{Write} hinzufügen
+  \end{enumerate}
 \end{frame}
 
 % Hintergrund: brennendes Steckbrett, Quelle: Bing-Bildersuche

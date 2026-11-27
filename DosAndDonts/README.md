@@ -61,7 +61,7 @@ Warnzeichen: Chip oder Regler zu heiß zum Anfassen, Brandgeruch, Rauch, Laptop 
 |---|---|
 | Akkus **nur auf Anfrage** bei uns holen | Akkus ohne Rücksprache mit uns benutzen |
 | Den **ersten Anschluss** eines Akkus an eure Schaltung **außerhalb des Gebäudes** machen | Den ersten Test drinnen am Tisch |
-| Laden **nur** mit der bereitgestellten Ladeplatine bzw. über das XIAO | Akkus **unbeaufsichtigt** laden |
+| Laden **nur** über das Board, an dem der Akku hängt (LoRa-Board bzw. XIAO), per USB-C | Akkus **unbeaufsichtigt** laden |
 | **Polarität doppelt prüfen**. Bei JST-Steckern von LiPos ist die Belegung nicht genormt! | Akku an 3V3 oder einen GPIO (voll geladen hat er 4,2 V) |
 | Nur an die vorgesehenen Anschlüsse (z. B. BAT-Pads am XIAO) | Akkus lose in der Tasche oder auf Metall (Kurzschluss!) |
 | Aufgeblähte, beschädigte oder heiße Akkus **sofort melden** | Solche Akkus weiter benutzen |
